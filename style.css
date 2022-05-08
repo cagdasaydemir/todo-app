@@ -3,8 +3,8 @@
 }
 * {
   font-family: "Nunito Sans", sans-serif;
+  box-sizing: border-box;
 }
-
 .font-italic {
   font-style: italic;
 }
@@ -16,36 +16,42 @@
   transition: transform 0.7s ease-in-out;
   transform: rotate(360deg);
 }
-
 .main-container {
   width: 414px;
   height: 736px;
   position: absolute;
-  background-image: url(./assets/images/todo-bg.png);
-  background-size: auto;
-  border: 5px;
-  border-color: black;
   border-radius: var(--app-corner);
-  box-shadow: 7px 15px 34px 5px rgb(195, 176, 204);
+  box-shadow: 7px 15px 34px 5px rgb(57, 70, 251);
+}
+.img-container {
+  width: 414px;
+  height: 736px;
+  position: absolute;
+  background-image: url(./assets/images/pexels-luis-quintero-2471234.jpg);
+  filter: blur(35px);
+  -webkit-filter: blur(35px);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: -1;
 }
 .header {
   width: inherit;
   display: flex;
   flex-direction: column;
 }
-
 .title {
   font-size: 36px;
   color: rgba(255, 255, 255, 1);
   font-family: "Nunito Sans";
   font-style: normal;
-  font-weight: 700;
-  font-size: 36px;
-  line-height: 49px;
+  font-weight: 800;
+  font-size: 43px;
+  line-height: 56px;
   margin-left: 50px;
   margin-top: 50px;
-  color: white;
-  text-shadow: 1px 1px 1px #d4d4d4a9;
+  color: #041955;
+  text-shadow: 3px 3px 5px #041955;
 }
 .todos {
   overflow-y: auto;
@@ -57,13 +63,16 @@ ul {
 .todo-item {
   padding-top: 15px;
   padding-bottom: 15px;
+  margin: 20px;
   display: flex;
+  background-color: #041955;
+  border-radius: var(--app-corner);
 }
 .todo-item.completed {
   padding-top: 15px;
   padding-bottom: 15px;
   display: flex;
-  background-color: rgba(235, 232, 237, 1);
+  background-color: #041955;
 }
 .todo-item-check {
   width: 21px !important;
@@ -76,27 +85,14 @@ ul {
   width: 100%;
   height: 100%;
   display: flex;
-
   background-color: rgb(165, 1, 206);
   align-items: center;
   justify-content: center;
-
   border: 2px !important;
-  border-color: rgba(193, 128, 209, 0.863) !important ;
+  border-color: rgba(193, 128, 209, 0.863) !important;
   border-style: solid !important;
 }
 .todo-item.completed .checkBox:hover {
-  width: 100%;
-  height: 100%;
-  display: flex;
-
-  background-color: rgb(165, 1, 206);
-  align-items: center;
-  justify-content: center;
-
-  border: 2px !important;
-  border-color: rgba(193, 128, 209, 0.863) !important ;
-  border-style: solid !important;
   animation: reverse bg-color 1s 1;
   animation-fill-mode: forwards;
   transform: scale(1.2);
@@ -104,25 +100,19 @@ ul {
 .todo-item .checkBox {
   width: 100%;
   height: 100%;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
-  border: 2px;
-
+  border: 2px #c361ff;
   border-style: solid;
 }
 .todo-item .checkBox:hover {
   width: 100%;
   height: 100%;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   border: 2px;
-
   border-style: solid;
   transform: scale(1.2);
   animation: bg-color 2s 1;
@@ -130,19 +120,18 @@ ul {
 }
 @keyframes bg-color {
   from {
-    background-color: white;
+    background-color: #041955;
   }
   to {
     background-color: rgb(165, 1, 206);
   }
   from {
-    border-color: #565656;
+    border-color: #1347d7;
   }
   to {
     border-color: rgba(193, 128, 209, 0.863);
   }
 }
-
 .todo-item.completed .todo-item-title {
   text-transform: capitalize;
   font-size: 24px;
@@ -150,10 +139,9 @@ ul {
 }
 .todo-item.completed .todo-item-descript {
   font-size: 19px;
-  color: rgba(112, 112, 112, 1);
+  
   text-decoration: line-through;
 }
-
 .todo-item-details {
   display: grid;
   margin-left: 25px;
@@ -163,50 +151,43 @@ ul {
 .todo-item-title {
   text-transform: capitalize;
   font-size: 24px;
-
+  color: rgb(255, 255, 255);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis !important;
 }
 .todo-item-descript {
   font-size: 19px;
-  color: rgba(112, 112, 112, 1);
-
+  color: rgb(255, 255, 255);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis !important;
 }
 .delete-todo {
   cursor: pointer;
-  background-color: rgba(209, 45, 94, 0.575);
+  background-color: rgba(212, 47, 241, 0.842);
   display: flex;
-
   margin-left: auto;
   margin-right: 35px;
   margin-top: 15px;
   margin-bottom: 15px;
   padding-left: 9px;
   padding-right: 9px;
-
   border-radius: 50%;
 }
 .delete-todo:hover {
   cursor: pointer;
-  background-color: rgba(209, 45, 94, 0.575);
   display: flex;
-
   margin-left: auto;
   margin-right: 35px;
   margin-top: 15px;
   margin-bottom: 15px;
   padding-left: 9px;
   padding-right: 9px;
-
   border-radius: 50%;
   transition: transform 0.1s;
   transform: scale(1.2);
 }
-
 .fa-trash-can {
   align-self: center;
   color: rgb(255, 255, 255);
@@ -219,12 +200,11 @@ ul {
 }
 .fa-check {
   align-self: center;
-  color: white;
+  color: #041955;
 }
 .delete-container {
   display: flex;
   margin-left: auto !important;
-  
   height: 64.5px !important;
 }
 .modal {
@@ -235,21 +215,18 @@ ul {
   display: flex;
   position: absolute;
   background: rgb(195, 97, 255);
-  background: linear-gradient(
-    180deg,
-    rgba(196, 102, 255, 0.226) 30%,
-    rgba(59, 0, 95, 0.712) 70%
-  );
+  background: linear-gradient(180deg,
+      rgba(196, 102, 255, 0.226) 30%,
+      rgba(59, 0, 95, 0.712) 70%);
   border-radius: var(--app-corner);
 }
 .modal-body {
   align-self: flex-end;
   display: flex;
   width: 100%;
-
   height: -500px;
   position: relative;
-  background-color: #f9f0ff;
+  background-color: #cf23e960;
   border-radius: var(--app-corner);
 }
 .todoForm {
@@ -267,19 +244,24 @@ ul {
   line-height: 27px;
   text-align: center;
   color: white;
-  background-color: #c361ff;
-  border-color: #8b00e1b3;
+  background-color: #041955;
+  border-color: #00b7ffa9;
 }
 textarea {
   max-height: 300px;
 }
-.none-todos{
+.none-todos {
   margin-left: 20px;
   margin-right: 20px;
-
   margin-top: 180px;
   color: #c361ff;
   font-size: 30px;
   list-style: none;
   text-align: center;
+  border-radius: var(--app-corner);
+  text-shadow: 4px 4px 7px #041955;
+}
+.fa-square-plus {
+  color: #041955;
+  text-shadow: 1px 1px 2px #0d0dcda9;
 }

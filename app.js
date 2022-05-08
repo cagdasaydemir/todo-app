@@ -1,4 +1,9 @@
 let todos = [];
+const todoStorage = localStorage.getItem("todos");
+
+if (todoStorage) {
+  todos = [...JSON.parse(todoStorage)];
+}
 
 let Todo = {
   id: 0,
@@ -8,31 +13,28 @@ let Todo = {
 };
 
 const formModalEl = document.getElementById("todoFormModal");
-const todoItemsEl = document.getElementById("todoItems");
+const todoListEl = document.getElementById("todoItems");
+
+const noneTodos = `<li class="none-todos"> 
+    No any task has been created yet </li>`;
 
 const toggleModal = () => {
   formModalEl.classList.toggle("show");
-  todoItemsEl.innerHTML="";
-  listTodoItems();
-  
 };
 
 formModalEl.addEventListener("click", (e) => {
-  if (e.target.id == "todoFormModal") toggleModal();
+  if (e.target.classList.contains("modal")) toggleModal();
 });
 
 const idGenerator = () => {
   return Math.floor(Math.random() * 100000 + 1);
 };
 
-const insertTodoItemsToList = (todoItem) => {
-  const listItem = `<li class="todo-item ${
-    todoItem.isComplete ? "completed" : "" 
-  }" data-id=${
-    todoItem.id
-  }>
+const addItemToHtml = (todoItem) => {
+  let addedItemHtml = `<li class="todo-item ${
+    todoItem.isComplete ? "completed" : ""
+  }" data-id=${todoItem.id}>
     <div class="todo-item-check" data-id=${
-      
       todoItem.id
     } onclick="completeTask(this)">
         <div class="checkBox"> <i class="fa-solid fa-check"></i></div>
@@ -42,35 +44,29 @@ const insertTodoItemsToList = (todoItem) => {
         <span class="todo-item-descript">${todoItem.descript}</span>
     </div>
     <div class="delete-container">
-        <div class="delete-todo" onclick="deleteTask(${todoItem.id})">
-            <i class="fa-regular fa-trash-can fa-l" width="32" height="32" onclick="#"></i>
+        <div class="delete-todo"  data-id="${todoItem.id}" onclick="deleteTask(${todoItem.id})">
+            <i class="fa-regular fa-trash-can fa-l" width="32" height="32"></i>
         </div>
     </div>
 </li>`;
-
-  todoItemsEl.insertAdjacentHTML("beforeend", listItem);
+  todoListEl.insertAdjacentHTML("beforeend", addedItemHtml);
 };
 
-const saveTodosToLS = () => {
-  localStorage.setItem("todoItemsLS", JSON.stringify(todos));
+const saveItemsLS = () => {
+  localStorage.setItem("todos", JSON.stringify(todos));
 };
 
 const addTodo = () => {
-  let todoItem;
+    if(todos.length == 0) todoListEl.innerHTML="";
+  const title = document.querySelector("input[name='title']").value;
+  const descript = document.querySelector("textarea[name='descript']").value;
 
-  todoItem = {
-    ...Todo,
-    id: idGenerator(),
-    title: document.getElementsByName("title")[0].value,
-    descript: document.getElementsByName("descript")[0].value,
-  };
-
-  todos = [...todos, todoItem];
-  saveTodosToLS();
-
-  insertTodoItemsToList(todoItem);
-
-  document.getElementById("todoForm").reset();
+  const addedItem = { id: idGenerator(), title, descript, isComplete: false };
+ 
+  addItemToHtml(addedItem);
+  todos.push(addedItem);
+  saveItemsLS();
+  document.querySelector("#todoForm").reset();
   toggleModal();
 };
 
@@ -79,55 +75,32 @@ const completeTask = (e) => {
   for (let i = 0; i < todos.length; i++) {
     if (todos[i].id == e.dataset.id) {
       todos[i].isComplete = !todos[i].isComplete;
-      saveTodosToLS();
+      saveItemsLS();
     }
   }
 };
-const noneTodos = `<li class="none-todos"> 
-    No any task has been created yet </li>`;
-
 const deleteTask = (id) => {
-  const todoItemsEll = document.getElementsByClassName("todo-item");
-  for (let i = 0; i < todoItemsEl.length; i++) {
-    if (todoItemsEll[i].dataset.id == id) todoItemsEll[i].remove();
-  };
-
-  todos = todos.filter((item) => {
-    if (item.id != id) return item;
-  });
-  saveTodosToLS();
-  
-  if (todoItemsLS) {
-    todos = JSON.parse(todoItemsLS);
-    if(todos.length>0) {listTodoItems(); 
-    
-    }else{
+    for (let i = 0; i < todos.length; i++) {
+        if (todos[i].id == id) {
+          todos.splice(i,1);
+          saveItemsLS();
+          todoListEl.innerHTML ="";
+          listTodoItems();
+        }
+      }
+     
       
-      todoItemsEl.insertAdjacentHTML("beforeend", noneTodos);
-      
-  }}
-  saveTodosToLS();
 };
 
 const listTodoItems = () => {
-  todoItemsEl.innerHTML = "";
-  todos.forEach((item) => {
-    insertTodoItemsToList(item);
-  });
+
+    if(todos.length >0){
+        todos.forEach((todo) => {
+            addItemToHtml(todo);
+    });
+    }else{
+     todoListEl.insertAdjacentHTML("beforeend", noneTodos);
+ 
+  }
 };
-
-const todoItemsLS = localStorage.getItem("todoItemsLS");
-
-
-
-if (todoItemsLS) {
-  todos = JSON.parse(todoItemsLS);
-  if(todos.length>0) {listTodoItems(); 
-  
-  }else{
-    
-    todoItemsEl.insertAdjacentHTML("beforeend", noneTodos);
-    
-}}
-
-
+listTodoItems();
